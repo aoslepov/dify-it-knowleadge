@@ -13,33 +13,39 @@
 ### Через innotop
 ```bash
 innotop -p<pass>
+```
 Внутри программы используй: d 1, затем Shift+Q
 
-Через консоль MySQL
-sql
+### Через консоль MySQL
+```sql
 SHOW PROCESSLIST;
 SHOW FULL PROCESSLIST;
+```
 
 ## Добавление/удаление полей (без блокировки)
 Важно: Выполнять в screen/tmux
 
 ```sql
 ALTER TABLE invoices_items_leads ADD affiliate_id INT UNSIGNED DEFAULT NULL AFTER lead_id,  ALGORITHM=INPLACE, LOCK=NONE;
+```
 
 ## Добавление индексов
 Синтаксис с блокировкой 
-sql
+```sql
 CREATE INDEX idx_affiliate_id ON invoices_items_leads (affiliate_id); 
+```
 
 Синтаксис ALTER TABLE (без блокировки)
-sql
+```sql
 ALTER TABLE invoices_items_leads ADD INDEX idx_affiliate_id (affiliate_id), ALGORITHM=INPLACE, LOCK=NONE;
+```
 
 ## Создание пользователей
 
 ## Для сервиса (префикс svc_)
-sql
+```sql
 CREATE USER '<USER>'@'%' IDENTIFIED WITH caching_sha2_password BY '<PASS>'   REQUIRE SSL;
+```
 
 Далее выдаём гранты пользователю.
 
@@ -71,8 +77,9 @@ LONGTEXT	4 294 967 295 (2³²−1) байт = 4 ГиБ
 ```
 
 ## Статус кластера
-sql
+```sql
 SELECT * FROM performance_schema.replication_group_members;
+```
 
 ## Выгрузка данных из БД
 Можно делать через DBeaver (увеличив socket timeout). Выгрузку выполняем на реплике в screen/tmux.
