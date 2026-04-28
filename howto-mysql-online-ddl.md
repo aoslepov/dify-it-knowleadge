@@ -10,47 +10,6 @@ date_verified: 2026-01-01
 # Создание индекса, добавление и удаление поля без блокировок в MySQL
 
 ## Проблема
-Стандартный ALTER TABLE и CREATE INDEX блокирует таблицу на запись
-
-## Решение
-
-```sql
--- Добавление поля
--- используем вместо
-ALTER TABLE invoices_items_leads ADD affiliate_id INT UNSIGNED DEFAULT NULL after lead_id;
-
--- запись
-ALTER TABLE invoices_items_leads ADD affiliate_id INT UNSIGNED DEFAULT NULL after lead_id, ALGORITHM=INPLACE, LOCK=NONE;
- 
--- Добавляем индекс
--- используем вместо
-CREATE INDEX idx_affiliate_id ON invoices_items_leads (affiliate_id);
-
--- такую запись
-alter table invoices_items_leads add index idx_affiliate_id (affiliate_id), ALGORITHM=INPLACE, LOCK=NONE
-```
-
-# Ограничение
-```sql
--- поддерживает ALGORITHM=COPY с блокировкой
--- для ускорения желательно снять траффик с записи на таблицу
-ALTER TABLE invoices_items_leads CHANGE affiliate_id affiliate_id BIGINT UNSIGNED DEFAULT NULL after lead_id;
-```
-
-
-
----
-type: how-to
-db_type: mysql
-tags: [alter, indexing, online-ddl, ddl, locking]
-difficulty: intermediate
-mysql_version: "8.0+"
-date_verified: 2026-01-01
----
-
-# Создание индекса, добавление и удаление поля без блокировок в MySQL
-
-## Проблема
 Стандартный `ALTER TABLE` и `CREATE INDEX` блокируют таблицу на запись, что приводит к простою сервиса.
 
 ## Решение
