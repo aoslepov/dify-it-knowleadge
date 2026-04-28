@@ -2,7 +2,6 @@
 type: how-to
 db_type: mysql
 tags: [alter, indexing, online-ddl, ddl, locking]
-difficulty: intermediate
 mysql_version: "8.0+"
 date_verified: 2026-01-01
 ---
